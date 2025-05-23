@@ -1,1 +1,1 @@
-web: uvicorn therapy_assistant_api:app --host 0.0.0.0 --port $PORT
+web: uvicorn therapy_assistant:app --host 0.0.0.0 --port $PORT
