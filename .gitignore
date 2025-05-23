@@ -1,2 +1,4 @@
 .json
 docs/*.json
+venv/
+venv
