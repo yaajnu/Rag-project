@@ -39,12 +39,16 @@ load_dotenv()
 
 from pinecone import Pinecone, ServerlessSpec
 from langchain_pinecone import PineconeVectorStore
-from langchain_ollama import OllamaEmbeddings
+from langchain_huggingface import HuggingFaceEmbeddings
 
-# Initialize vector store and embedding model
-embeddings = OllamaEmbeddings(model="llama3")
+model_name = "sentence-transformers/all-mpnet-base-v2"
+model_kwargs = {"device": "cpu"}
+encode_kwargs = {"normalize_embeddings": False}
+embeddings = HuggingFaceEmbeddings(
+    model_name=model_name, model_kwargs=model_kwargs, encode_kwargs=encode_kwargs
+)
 pc = Pinecone(api_key=os.environ.get("PINECONE_API_KEY"))
-index_name = "mental-health-chatbot-rag-2"
+index_name = "mental-health-chatbot-rag-with-hf"
 index = pc.Index(index_name)
 vector_store = PineconeVectorStore(index=index, embedding=embeddings)
 retriever = vector_store.as_retriever(search_kwargs={"k": 3})
@@ -75,7 +79,7 @@ def create_therapy_chain():
     # Define message templates
     system_template = """The context below consists of previous people speaking with their therapists about their issues, use these contexts 
 as a pointer and then answer the query from the user based on the assistant's responses in the previous chats. Answer only questions relevant to mental health and don't answer if the question is irrelevant.
-ABSOLUTELY AVOID ANSWERING IRRELEVANT QUESTIONS. 
+ABSOLUTELY AVOID ANSWERING IRRELEVANT QUESTIONS. NEVER USE THE NAME FROM THE CONTEXTS instead Ask the user for their name to make it feel more personal.
 
     Contexts:
     {context}"""
@@ -123,8 +127,8 @@ class ChatRequest(BaseModel):
 
 class ChatResponse(BaseModel):
     response: str
-    session_id: str
-    messages: List[Message]
+    # session_id: str
+    # messages: List[Message]
 
 
 class SessionInfo(BaseModel):
@@ -237,9 +241,7 @@ async def process_chat(request: ChatRequest):
         save_session(session_id, messages)
 
         # Return response with session info
-        return ChatResponse(
-            response=assistant_response, session_id=session_id, messages=messages
-        )
+        return ChatResponse(response=assistant_response)
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error processing chat: {str(e)}")
