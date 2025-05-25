@@ -30,6 +30,7 @@ langchain==0.3.25
 langchain-core==0.3.61
 langchain-google-genai==2.1.4
 langchain-huggingface==0.2.0
+langchain-pinecone==0.2.6
 langchain-text-splitters==0.3.8
 langsmith==0.3.42
 MarkupSafe==3.0.2
@@ -40,7 +41,6 @@ orjson==3.10.18
 packaging==24.2
 pillow==11.2.1
 pinecone==6.0.2
-
 proto-plus==1.26.1
 protobuf==5.29.4
 pyasn1==0.6.1
