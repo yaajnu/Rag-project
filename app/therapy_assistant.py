@@ -127,7 +127,7 @@ class ChatRequest(BaseModel):
 
 class ChatResponse(BaseModel):
     response: str
-    # session_id: str
+    session_id: str
     # messages: List[Message]
 
 
@@ -241,7 +241,7 @@ async def process_chat(request: ChatRequest):
         save_session(session_id, messages)
 
         # Return response with session info
-        return ChatResponse(response=assistant_response)
+        return ChatResponse(response=assistant_response, session_id=session_id)
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error processing chat: {str(e)}")
@@ -295,7 +295,7 @@ async def health_check():
 
 
 # Serve static files for the web interface
-# app.mount("/", StaticFiles(directory="static", html=True), name="static")
+app.mount("/", StaticFiles(directory="static", html=True), name="static")
 
 # For local development
 if __name__ == "__main__":

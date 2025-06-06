@@ -1,0 +1,27 @@
+{
+  "session_id": "1a83f359-029d-4332-87e1-d2b6734a5543",
+  "created_at": "2025-06-02T02:54:44.481150",
+  "last_updated": "2025-06-02T02:54:44.481150",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Hello I'm not feeling great",
+      "timestamp": "2025-06-02T02:54:22.760426"
+    },
+    {
+      "role": "assistant",
+      "content": "Hello! I'm sorry to hear that you're not feeling great. My name is Alex. Can I ask for your name? I'm here to listen and support you. Can you tell me more about what's been going on?",
+      "timestamp": "2025-06-02T02:54:28.121605"
+    },
+    {
+      "role": "user",
+      "content": "I'm rahul and I've had a bad day at work",
+      "timestamp": "2025-06-02T02:54:41.137358"
+    },
+    {
+      "role": "assistant",
+      "content": "Hi Rahul, I'm sorry to hear you had a bad day at work. Work-related stress can really take a toll on our well-being. What specifically happened that made your day so difficult?",
+      "timestamp": "2025-06-02T02:54:44.481150"
+    }
+  ]
+}

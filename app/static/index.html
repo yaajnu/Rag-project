@@ -295,10 +295,11 @@
         const newSessionBtn = document.getElementById('new-session-btn');
         const saveSessionBtn = document.getElementById('save-session-btn');
         
+        // API Configuration - Updated for your FastAPI server
+        const API_BASE_URL = 'http://localhost:8000';
+        
         // Variables
         let sessionId = null;
-        let websocket = null;
-        let useWebSocket = false; // Set to true to use WebSocket, false for REST API
         
         // Initialize
         window.addEventListener('load', initChat);
@@ -331,32 +332,20 @@
             // Clear messages display
             chatMessages.innerHTML = '';
             
-            if (useWebSocket && websocket) {
-                websocket.close();
-            }
+            // Reset session ID
+            sessionId = null;
+            localStorage.removeItem('therapySessionId');
             
-            // Generate a new session ID or get one from the server
-            const newSessionId = `session_${Date.now()}_${Math.random().toString(36).substring(2, 10)}`;
-            sessionId = newSessionId;
+            // Hide session info until we get a session ID from the server
+            sessionInfo.style.display = 'none';
             
-            // Save to localStorage
-            localStorage.setItem('therapySessionId', sessionId);
-            
-            // Update session info display
-            sessionIdSpan.textContent = sessionId;
-            sessionInfo.style.display = 'block';
-            
-            if (useWebSocket) {
-                connectWebSocket();
-            } else {
-                // Add initial assistant message
-                addMessage('assistant', "Hello! I'm your therapy assistant. How are you feeling today?");
-            }
+            // Add initial assistant message
+            addMessage('assistant', "Hello! I'm your therapy assistant. How can I help you today?");
         }
         
         // Load existing session
         function loadSession(id) {
-            fetch(`/api/sessions/${id}`)
+            fetch(`${API_BASE_URL}/sessions/${id}`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Session not found');
@@ -371,17 +360,13 @@
                     sessionIdSpan.textContent = id;
                     sessionInfo.style.display = 'block';
                     
-                    // Add messages to chat
-                    data.messages.forEach(msg => {
+                    // Add messages to chat (data is an array of messages)
+                    data.forEach(msg => {
                         addMessage(msg.role, msg.content);
                     });
                     
                     // Scroll to bottom
                     scrollToBottom();
-                    
-                    if (useWebSocket) {
-                        connectWebSocket();
-                    }
                 })
                 .catch(error => {
                     console.error('Error loading session:', error);
@@ -400,88 +385,42 @@
             }, 2000);
         }
         
-        // Connect WebSocket
-        function connectWebSocket() {
-            if (websocket) {
-                websocket.close();
-            }
-            
-            const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsUrl = `${protocol}//${window.location.host}/ws/chat/${sessionId}`;
-            
-            websocket = new WebSocket(wsUrl);
-            
-            websocket.onopen = () => {
-                console.log('WebSocket connected');
-            };
-            
-            websocket.onmessage = (event) => {
-                const data = JSON.parse(event.data);
-                
-                if (data.type === 'history') {
-                    // Clear messages and load history
-                    chatMessages.innerHTML = '';
-                    data.messages.forEach(msg => {
-                        addMessage(msg.role, msg.content);
-                    });
-                    scrollToBottom();
-                }
-                else if (data.type === 'message') {
-                    const msg = data.message;
-                    
-                    if (msg.role === 'assistant') {
-                        // Hide typing indicator
-                        typingIndicator.style.display = 'none';
-                        // Add message
-                        addMessage(msg.role, msg.content);
-                        scrollToBottom();
-                    }
-                }
-                else if (data.type === 'error') {
-                    console.error('WebSocket error:', data.message);
-                    addSystemMessage(`Error: ${data.message}`);
-                }
-            };
-            
-            websocket.onerror = (error) => {
-                console.error('WebSocket error:', error);
-                addSystemMessage('Connection error. Falling back to REST API.');
-                useWebSocket = false;
-            };
-            
-            websocket.onclose = () => {
-                console.log('WebSocket disconnected');
-            };
-        }
-        
-        // Send message using REST API
+        // Send message using REST API - Updated for your API structure
         function sendMessageREST(message) {
-            return fetch('/api/chat', {
+            return fetch(`${API_BASE_URL}/chat`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    message: message,
-                    session_id: sessionId
+                    session_id: sessionId,
+                    input: message,  // Your API expects 'input' not 'message'
+                    context: ""      // Optional context field
                 }),
             })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                    throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 return response.json();
             })
             .then(data => {
-                // Update session ID if changed
+                // Update session ID if this is a new session
+                console.log('API Response:', data);  // Add this line
+                console.log('Session id of data:', data.session_id);
+                // Update session ID if this is a new session
                 if (data.session_id && data.session_id !== sessionId) {
+                    console.log('Setting new session ID:', data.session_id);  // Add this line
                     sessionId = data.session_id;
                     localStorage.setItem('therapySessionId', sessionId);
                     sessionIdSpan.textContent = sessionId;
+                    sessionInfo.style.display = 'block';
                 }
                 
-                // Add assistant response
-                addMessage('assistant', data.message);
+                console.log('Current sessionId:', sessionId);  
+                            
+                // Add assistant response - your API returns 'response' field
+                addMessage('assistant', data.response);
                 scrollToBottom();
                 
                 // Hide typing indicator
@@ -503,17 +442,6 @@
                 messageInput.disabled = false;
                 sendButton.disabled = false;
             });
-        }
-        
-        // Send message using WebSocket
-        function sendMessageWebSocket(message) {
-            if (websocket && websocket.readyState === WebSocket.OPEN) {
-                websocket.send(JSON.stringify({
-                    message: message
-                }));
-                return true;
-            }
-            return false;
         }
         
         // Send message event handler
@@ -541,16 +469,8 @@
             messageInput.disabled = true;
             sendButton.disabled = true;
             
-            if (useWebSocket) {
-                const sent = sendMessageWebSocket(message);
-                if (!sent) {
-                    // Fallback to REST API
-                    console.log('WebSocket not available, using REST API');
-                    sendMessageREST(message);
-                }
-            } else {
-                sendMessageREST(message);
-            }
+            // Send message to API
+            sendMessageREST(message);
         }
         
         // Add message to chat

@@ -2,3 +2,5 @@
 docs/*.json
 venv/
 venv
+Ignore_folder
+docs

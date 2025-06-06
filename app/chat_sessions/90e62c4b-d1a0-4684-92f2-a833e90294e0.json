@@ -1,0 +1,27 @@
+{
+  "session_id": "90e62c4b-d1a0-4684-92f2-a833e90294e0",
+  "created_at": "2025-05-26T00:04:03.534741",
+  "last_updated": "2025-05-26T00:04:03.534742",
+  "messages": [
+    {
+      "role": "user",
+      "content": "I'm having a bad day",
+      "timestamp": "2025-05-26T00:03:17.262147"
+    },
+    {
+      "role": "assistant",
+      "content": "I'm sorry to hear you're having a bad day. My name is Alex. Would you like to tell me more about what's been going on?",
+      "timestamp": "2025-05-26T00:03:21.901790"
+    },
+    {
+      "role": "user",
+      "content": "I'm not comfortable with shareing details to a random chatbot",
+      "timestamp": "2025-05-26T00:04:00.318669"
+    },
+    {
+      "role": "assistant",
+      "content": "I understand your hesitation. It takes courage to open up, especially to someone new.\n\nWould you feel more comfortable if I shared some general coping strategies for bad days? Or perhaps we could explore some relaxation techniques together?\n\nUltimately, the choice is yours, and I respect your boundaries. My goal is to provide support in a way that feels safe and comfortable for you.",
+      "timestamp": "2025-05-26T00:04:03.534725"
+    }
+  ]
+}

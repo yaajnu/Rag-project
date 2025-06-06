@@ -1,0 +1,57 @@
+{
+  "session_id": "c25b57fd-add8-450a-9940-729ea0aae104",
+  "created_at": "2025-05-25T22:23:03.240664",
+  "last_updated": "2025-05-25T22:23:03.240672",
+  "messages": [
+    {
+      "role": "user",
+      "content": "not good",
+      "timestamp": "2025-05-25T22:15:40.246100"
+    },
+    {
+      "role": "assistant",
+      "content": "Hello, I understand that you're feeling \"not good.\" I'm here to listen and support you. Could you tell me your name and elaborate on what's been making you feel this way?",
+      "timestamp": "2025-05-25T22:15:44.071158"
+    },
+    {
+      "role": "user",
+      "content": "I'm yaajnu and im not good",
+      "timestamp": "2025-05-25T22:16:11.171714"
+    },
+    {
+      "role": "assistant",
+      "content": "Hello Yaajnu, I understand that you're feeling \"not good.\" Can you tell me more about what's been bothering you?",
+      "timestamp": "2025-05-25T22:16:13.527008"
+    },
+    {
+      "role": "user",
+      "content": "Had a bad day , my family's been in an accident . Everyone is all right but still I'm not feeling great since I'm in a different city alltogether",
+      "timestamp": "2025-05-25T22:20:18.895685"
+    },
+    {
+      "role": "assistant",
+      "content": "I'm really sorry to hear about your family's accident, Yaajnu. It's completely understandable that you're not feeling great, especially being in a different city and not being able to be there with them. It's natural to feel worried and helpless in such situations. Would you like to talk about what's going through your mind right now?",
+      "timestamp": "2025-05-25T22:20:24.891443"
+    },
+    {
+      "role": "user",
+      "content": "My sister had a minor concussion so just been overthinking if it could have been something worse",
+      "timestamp": "2025-05-25T22:21:10.385185"
+    },
+    {
+      "role": "assistant",
+      "content": "It's natural to worry about what could have been, Yaajnu, especially when it comes to family. It sounds like you're experiencing a lot of anxiety about your sister's concussion.\n\nOverthinking in these situations is common. Have you found yourself replaying the accident in your mind or imagining different scenarios?",
+      "timestamp": "2025-05-25T22:22:11.262536"
+    },
+    {
+      "role": "user",
+      "content": "Yeah its been going through my head a lot",
+      "timestamp": "2025-05-25T22:22:58.738300"
+    },
+    {
+      "role": "assistant",
+      "content": "It's understandable that the accident is replaying in your head, Yaajnu. When we experience a stressful event, our minds often try to process it by replaying it, but it can be distressing.\n\nHave you tried anything to distract yourself or calm your thoughts?",
+      "timestamp": "2025-05-25T22:23:03.240555"
+    }
+  ]
+}

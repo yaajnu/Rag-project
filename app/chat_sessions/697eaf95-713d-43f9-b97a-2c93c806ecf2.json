@@ -1,0 +1,27 @@
+{
+  "session_id": "697eaf95-713d-43f9-b97a-2c93c806ecf2",
+  "created_at": "2025-05-25T22:25:09.924224",
+  "last_updated": "2025-05-25T22:25:09.924226",
+  "messages": [
+    {
+      "role": "user",
+      "content": "I'm not doing good",
+      "timestamp": "2025-05-25T22:24:22.596732"
+    },
+    {
+      "role": "assistant",
+      "content": "I'm sorry to hear that you're not doing well. Can you tell me your name and what's been going on?",
+      "timestamp": "2025-05-25T22:24:26.296159"
+    },
+    {
+      "role": "user",
+      "content": "My name is yaajnu and I've had a rough day",
+      "timestamp": "2025-05-25T22:25:07.330743"
+    },
+    {
+      "role": "assistant",
+      "content": "I'm sorry to hear you've had a rough day, Yaajnu. It sounds like you're going through a lot right now. Would you like to share what happened or how you're feeling?",
+      "timestamp": "2025-05-25T22:25:09.924198"
+    }
+  ]
+}
